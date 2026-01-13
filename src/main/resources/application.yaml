@@ -1,0 +1,16 @@
+server:
+  port: 2524
+spring:
+  application:
+    name: Banking
+  datasource:
+        url: jdbc:postgresql://localhost:5222/banking
+        driver-class-name: org.postgresql.Driver
+        username: banking
+        password: banking
+  jpa:
+    hibernate:
+      ddl-auto: create  # to recreate DB schema in dev env / we have also [update, validate, etc ... )
+    database: postgresql # Precise the DB we use for optime 
+    database-platform: org.hibernate.dialect.PostgreSQLDialect # Precis DB dialect for proper communication
+    

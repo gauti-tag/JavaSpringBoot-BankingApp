@@ -1,0 +1,10 @@
+services:
+  database: 
+    image: postgres:15.4
+    environment:
+      POSTGRES_DB: banking
+      POSTGRES_USER: banking
+      POSTGRES_PASSWORD: banking
+    
+    ports:
+      - "5222:5432"
