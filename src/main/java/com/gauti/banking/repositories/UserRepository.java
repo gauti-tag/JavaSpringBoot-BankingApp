@@ -2,6 +2,8 @@ package com.gauti.banking.repositories;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.gauti.banking.models.User;
 
@@ -22,4 +24,14 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     // select * from user where firstname = "%ali%" and email = "ali@gmail.com"
     User findByFirstnameContainingIgnoreCaseAndEmail(String firstname, String email);
+
+    // utilisation du JPQL avec l'annotation @Query 
+    @Query("from User where firstname = :fn")
+    List<User> searchByFirstname(@Param("fn") String firstname);
+
+    @Query("from User where firstname = '%:firstname%'")
+    List<User> searchByFirstnameContaining(String firstname);
+
+    @Query("from User u inner join Account a on u.id = a.user.id where a.iban = :iban")
+    List<User> searchByIban(String iban);
 }
