@@ -1,28 +1,25 @@
 package com.gauti.banking.models;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import lombok.Builder;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
-//@NoArgsConstructor
 @Entity
-public class Account {
+@SuperBuilder
+//@NoArgsConstructor
+@AllArgsConstructor
 
-    @Id
-    @GeneratedValue
-    private Integer id; 
+public class Account extends AbstractEntity {
 
     private String iban; 
 
-    private LocalDateTime creationDate;
-
-    private LocalDateTime lastUpdated; 
-
    // private Address address; 
+
+   @OneToOne
+   @JoinColumn(name="id_user")
+   private User user; 
 }

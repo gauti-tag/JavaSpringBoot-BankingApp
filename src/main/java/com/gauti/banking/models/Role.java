@@ -1,18 +1,22 @@
 package com.gauti.banking.models;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import lombok.Builder;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
 @Data
-@Builder
+@SuperBuilder
 @Entity
-public class Role {
-
-    @Id
-    @GeneratedValue
-    private Integer id; 
+//@NoArgsConstructor
+@AllArgsConstructor
+public class Role extends AbstractEntity {
 
     private String name; 
+
+    @OneToOne
+    @JoinColumn(name="id_user")
+    private User user; 
+
 }

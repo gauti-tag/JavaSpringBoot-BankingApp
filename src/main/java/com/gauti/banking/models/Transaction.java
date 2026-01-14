@@ -1,34 +1,33 @@
 package com.gauti.banking.models;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import lombok.Builder;
+
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
+@SuperBuilder
 @Entity
-public class Transaction {
-
-    @Id
-    @GeneratedValue
-    private Integer id; 
+//@NoArgsConstructor
+@AllArgsConstructor
+public class Transaction extends AbstractEntity {
 
     private BigDecimal amount; 
 
-    @Enumerated(EnumType.STRING)
-    private TransactionType type; 
+    //@Enumerated(EnumType.STRING)
+    //private TransactionType type; 
 
     private String destinationIban; 
 
-    private LocalDateTime creationDate; 
-
-    private LocalDateTime lastUpdated;
-
+    @ManyToOne
+    @JoinColumn(name="id_user")
+    private User user;
 }

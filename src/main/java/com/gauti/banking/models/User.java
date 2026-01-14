@@ -1,19 +1,22 @@
 package com.gauti.banking.models;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import lombok.Builder;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
+@SuperBuilder
 //@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-public class User {
-    @Id
-    @GeneratedValue
-    private Integer id; 
+@Table(name="_user")
+public class User extends AbstractEntity {
 
     private String firstname; 
 
@@ -25,5 +28,18 @@ public class User {
 
     private boolean active; 
 
-   // private Address address; 
+    @OneToOne(mappedBy="user")
+    private Address address; 
+
+    @OneToMany(mappedBy="user")
+    private List<Transaction> transactions; 
+
+    @OneToMany(mappedBy="user")
+    private List<Contact> contact;
+
+    @OneToOne(mappedBy="user")
+    private Account account; 
+
+    @OneToOne(mappedBy="user")
+    private Role role;
 }
