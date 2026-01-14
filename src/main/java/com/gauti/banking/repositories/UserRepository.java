@@ -9,20 +9,20 @@ import com.gauti.banking.models.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    // select * from user where firstname = 'ali'
+    // select * from _user where firstname = 'ali'
     List<User> findByFirstname(String firstname);
 
-    // select * from user where firstname like '%Ali%'
+    // select * from _user where firstname like '%Ali%'
     List<User> findByFirstnameContaining(String firstname);
 
     
-    // select * from user where firstname ilike 'ali'
+    // select * from _user where firstname ilike 'ali'
     List<User> findByFirstnameContainingIgnoreCase(String firstname);
 
-    // select * from user u inner join account a on u.id = a.id_user and a.iban = 'FBDR14789653'
+    // select * from _user u inner join account a on u.id = a.id_user and a.iban = 'FBDR14789653'
     List<User> findAllByAccountIban(String iban);
 
-    // select * from user where firstname = "%ali%" and email = "ali@gmail.com"
+    // select * from _user where firstname = "%ali%" and email = "ali@gmail.com"
     User findByFirstnameContainingIgnoreCaseAndEmail(String firstname, String email);
 
     // utilisation du JPQL avec l'annotation @Query 
@@ -34,4 +34,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("from User u inner join Account a on u.id = a.user.id where a.iban = :iban")
     List<User> searchByIban(String iban);
+
+    @Query(value ="select * from _user u inner join account a on u.id = a.id_user and a.iban = :iban", nativeQuery=true)
+    List<User> searchByIbanNative(String iban);
 }
