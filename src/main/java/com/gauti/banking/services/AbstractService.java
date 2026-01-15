@@ -1,6 +1,6 @@
 package com.gauti.banking.services;
 
-// Implémenter une interface générique qui reçois un type (objet) T
+// Implémenter une interface générique qui reçois un type (objet Dto) T
 
 import java.util.List;
 

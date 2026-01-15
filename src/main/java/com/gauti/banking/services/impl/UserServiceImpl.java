@@ -1,0 +1,57 @@
+package com.gauti.banking.services.impl;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
+import com.gauti.banking.dto.UserDto;
+import com.gauti.banking.models.User;
+import com.gauti.banking.repositories.UserRepository;
+import com.gauti.banking.services.UserService;
+import com.gauti.banking.validators.ObjectsValidator;
+
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class UserServiceImpl implements UserService {
+
+    private final UserRepository repository;
+    private final ObjectsValidator<UserDto> validator; 
+
+    @Override
+    public Integer save(UserDto dto) {
+        //throw new UnsupportedOperationException("Not supported yet.");
+        validator.validate(dto);
+        User user = UserDto.toEntity(dto);
+        return repository.save(user).getId();
+    }
+
+    @Override
+    public List<UserDto> findAll() {
+        //throw new UnsupportedOperationException("Not supported yet.");
+        return repository.findAll()
+            .stream()
+            .map(UserDto::fromEntity) // or .map(u -> UserDto.fromEntity(u))
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDto findById(Integer id) {
+        //throw new UnsupportedOperationException("Not supported yet.");
+        return repository.findById(id)
+            .map(UserDto::fromEntity)
+            .orElseThrow(() -> new EntityNotFoundException("No user was found with the provided ID :" + id ));
+    }
+
+    @Override
+    public void delete(Integer id) {
+        //throw new UnsupportedOperationException("Not supported yet.");
+        // todo check before delete
+        repository.deleteById(id);
+
+    }
+
+}

@@ -26,7 +26,7 @@ public class UserDto {
     @NotBlank
     private String firstname; 
 
-    @NotNull(message= "le prenom ne doit pas être vide")
+    @NotNull(message= "le prenom ne doit pas être null")
     @NotEmpty(message= "le prenom ne doit pas être vide")
     @NotBlank(message= "le prenom ne doit pas être vide")
     private String lastname; 
