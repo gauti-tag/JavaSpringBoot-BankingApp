@@ -2,6 +2,11 @@ package com.gauti.banking.dto;
 
 import com.gauti.banking.models.User;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,14 +18,30 @@ import lombok.Setter;
 @Builder
 public class UserDto {
 
+   
     private Integer id; 
 
+    @NotNull
+    @NotEmpty
+    @NotBlank
     private String firstname; 
 
+    @NotNull
+    @NotEmpty
+    @NotBlank
     private String lastname; 
 
+
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    @Email
     private String email; 
 
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    @Size(min= 8, max=16)
     private String password; 
 
     public static UserDto fromEntity(User user){

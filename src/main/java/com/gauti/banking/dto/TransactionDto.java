@@ -6,6 +6,9 @@ import com.gauti.banking.models.Transaction;
 import com.gauti.banking.models.TransactionType;
 import com.gauti.banking.models.User;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +22,9 @@ public class TransactionDto {
 
     private Integer id; 
 
+    @Positive
+    @Max(value=100000)
+    @Min(value=20)
     private BigDecimal amount; 
 
     private TransactionType type; 
