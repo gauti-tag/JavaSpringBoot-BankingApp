@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
         //throw new UnsupportedOperationException("Not supported yet.");
         return repository.findById(id)
             .map(UserDto::fromEntity)
-            .orElseThrow(() -> new EntityNotFoundException("No user was found with the provided ID :" + id ));
+            .orElseThrow(() -> new EntityNotFoundException("Non User was found with the provided ID :" + id ));
     }
 
     @Override
