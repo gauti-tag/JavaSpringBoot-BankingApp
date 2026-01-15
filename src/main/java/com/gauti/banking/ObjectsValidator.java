@@ -27,6 +27,7 @@ public class ObjectsValidator<T> { // Reçois un objet
                 .collect(Collectors.toSet());
 
                 // todo raise an exception
+                throw new ObjectValidationException(errorMessages, objectToValidate.getClass().getName());
         }
 
     }
