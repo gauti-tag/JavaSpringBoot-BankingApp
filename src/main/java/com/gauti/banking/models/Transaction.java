@@ -22,8 +22,8 @@ public class Transaction extends AbstractEntity {
 
     private BigDecimal amount; 
 
-    //@Enumerated(EnumType.STRING)
-    //private TransactionType type; 
+    @Enumerated(EnumType.STRING)
+    private TransactionType type; 
 
     private String destinationIban; 
 
