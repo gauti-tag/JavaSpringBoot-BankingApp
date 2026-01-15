@@ -1,9 +1,11 @@
-package com.gauti.banking;
+package com.gauti.banking.validators;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
+
+import com.gauti.banking.exceptions.ObjectValidationException;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;

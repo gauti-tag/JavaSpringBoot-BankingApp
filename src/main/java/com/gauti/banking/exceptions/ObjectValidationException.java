@@ -1,4 +1,4 @@
-package com.gauti.banking;
+package com.gauti.banking.exceptions;
 
 import java.util.Set;
 
