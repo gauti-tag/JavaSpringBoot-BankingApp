@@ -52,7 +52,7 @@ public class TransactionServiceImpl implements TransactionService{
     }
 
     private int transactionType(TransactionType type){
-        return TransactionType.TRANSFERT == type ? -1 : 1;  
+        return TransactionType.TRANSFER == type ? -1 : 1;  
     }
 
     @Override
