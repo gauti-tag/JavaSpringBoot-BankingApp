@@ -49,4 +49,12 @@ public class ContactServiceImpl implements ContactService {
         repository.deleteById(id);
     }
 
+    @Override
+    public List<ContactDto> findAllByUserId(Integer userId) {
+        return repository.findAllByUserId(userId)
+            .stream()
+            .map(ContactDto::fromEntity)
+            .collect(Collectors.toList());
+    }
+
 }

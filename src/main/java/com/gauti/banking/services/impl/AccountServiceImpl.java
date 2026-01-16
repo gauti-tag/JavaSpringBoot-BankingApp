@@ -8,6 +8,7 @@ import org.iban4j.Iban;
 import org.springframework.stereotype.Service;
 
 import com.gauti.banking.dto.AccountDto;
+import com.gauti.banking.exceptions.OperationNonPermittedException;
 import com.gauti.banking.models.Account;
 import com.gauti.banking.repositories.AccountRepository;
 import com.gauti.banking.services.AccountService;
@@ -38,6 +39,17 @@ public class AccountServiceImpl implements AccountService {
 
         validator.validate(dto);
         Account account = AccountDto.toEntity(dto);
+
+        boolean userHasAlreadyAnAccount = repository.findByUserId(account.getUser().getId()).isPresent();
+        if(userHasAlreadyAnAccount){
+            throw new OperationNonPermittedException(
+                "The selected user has already an active account",
+                "Create Account",
+                "Account Service",
+                "Account creation"
+            );
+        }
+
         // Generate random IBAN when creating new account else do not update the iban
         if(dto.getId() == null){
             account.setIban(generateRandomIban());

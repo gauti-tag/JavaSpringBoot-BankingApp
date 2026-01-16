@@ -5,9 +5,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.gauti.banking.dto.AccountDto;
 import com.gauti.banking.dto.UserDto;
 import com.gauti.banking.models.User;
 import com.gauti.banking.repositories.UserRepository;
+import com.gauti.banking.services.AccountService;
 import com.gauti.banking.services.UserService;
 import com.gauti.banking.validators.ObjectsValidator;
 
@@ -19,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
+    private final AccountService accountService;
     private final ObjectsValidator<UserDto> validator; 
 
     @Override
@@ -52,6 +55,28 @@ public class UserServiceImpl implements UserService {
         // todo check before delete
         repository.deleteById(id);
 
+    }
+
+    @Override
+    public Integer validateAccount(Integer id) {
+        User user = repository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("No User was found"));
+        user.setActive(true);
+        // create a bank account
+        AccountDto account = AccountDto.builder()
+            .user(UserDto.fromEntity(user))
+            .build(); // use Account dto because of generated iban 
+        accountService.save(account); // save account 
+        repository.save(user); // save user
+        return user.getId(); // return user Id
+    }
+
+    @Override
+    public Integer invalidateAccount(Integer id) {
+        User user = repository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("No User was found"));
+        user.setActive(false);
+        return repository.save(user).getId();
     }
 
 }
