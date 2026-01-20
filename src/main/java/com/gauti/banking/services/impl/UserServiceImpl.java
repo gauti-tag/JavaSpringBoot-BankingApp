@@ -14,6 +14,7 @@ import com.gauti.banking.services.UserService;
 import com.gauti.banking.validators.ObjectsValidator;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -58,15 +59,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public Integer validateAccount(Integer id) {
         User user = repository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("No User was found"));
-        user.setActive(true);
+    
         // create a bank account
         AccountDto account = AccountDto.builder()
             .user(UserDto.fromEntity(user))
             .build(); // use Account dto because of generated iban 
         accountService.save(account); // save account 
+         
+        user.setActive(true);
         repository.save(user); // save user
         return user.getId(); // return user Id
     }

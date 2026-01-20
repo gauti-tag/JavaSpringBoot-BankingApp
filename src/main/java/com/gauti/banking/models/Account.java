@@ -5,12 +5,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Data
 @Entity
 @SuperBuilder
-//@NoArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 
 public class Account extends AbstractEntity {

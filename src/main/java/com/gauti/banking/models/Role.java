@@ -5,11 +5,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder
 @Entity
-//@NoArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 public class Role extends AbstractEntity {
 

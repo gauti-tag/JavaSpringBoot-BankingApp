@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Map;
+import java.util.List;
 
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
+import com.gauti.banking.dto.TransactionSumDetails;
 import com.gauti.banking.models.TransactionType;
 import com.gauti.banking.repositories.TransactionRepository;
 import com.gauti.banking.services.StatisticsService;
@@ -22,7 +22,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     private final TransactionRepository transactionRepository;
 
     @Override
-    public Map<LocalDate, BigDecimal> findSumTransactionByDate(LocalDate startDate, LocalDate endDate, Integer userId) {
+    public List<TransactionSumDetails> findSumTransactionByDate(LocalDate startDate, LocalDate endDate, Integer userId) {
         LocalDateTime start = LocalDateTime.of(startDate, LocalTime.of(0, 0, 0));
         LocalDateTime end = LocalDateTime.of(endDate, LocalTime.of(23, 59, 59));
         return transactionRepository.findSumTransactionByDate(start, end, userId);

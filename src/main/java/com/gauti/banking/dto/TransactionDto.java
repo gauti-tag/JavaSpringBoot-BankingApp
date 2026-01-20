@@ -1,6 +1,7 @@
 package com.gauti.banking.dto;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import com.gauti.banking.models.Transaction;
 import com.gauti.banking.models.TransactionType;
@@ -31,6 +32,8 @@ public class TransactionDto {
 
     private String destinationIban; 
 
+    private LocalDate transactionDate; 
+
     private Integer userId; 
 
     public static TransactionDto fromEntity(Transaction transaction){
@@ -38,6 +41,7 @@ public class TransactionDto {
             .id(transaction.getId())
             .amount(transaction.getAmount())
             .destinationIban(transaction.getDestinationIban())
+            .transactionDate(transaction.getTransactionDate())
             .type(transaction.getType())
             .userId(transaction.getUser().getId())
             .build();
@@ -49,6 +53,7 @@ public class TransactionDto {
             .id(transaction.getId())
             .amount(transaction.getAmount())
             .destinationIban(transaction.getDestinationIban())
+            .transactionDate(LocalDate.now())
             .type(transaction.getType())
             .user(
                 User.builder()

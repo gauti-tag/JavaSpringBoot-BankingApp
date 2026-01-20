@@ -1,7 +1,7 @@
 package com.gauti.banking.models;
 
 import java.math.BigDecimal;
-
+import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,12 +11,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Data
 @SuperBuilder
 @Entity
-//@NoArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 public class Transaction extends AbstractEntity {
 
@@ -26,6 +27,8 @@ public class Transaction extends AbstractEntity {
     private TransactionType type; 
 
     private String destinationIban; 
+
+    private LocalDate transactionDate; 
 
     @ManyToOne
     @JoinColumn(name="id_user")

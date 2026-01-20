@@ -41,7 +41,8 @@ public class AccountServiceImpl implements AccountService {
         Account account = AccountDto.toEntity(dto);
 
         boolean userHasAlreadyAnAccount = repository.findByUserId(account.getUser().getId()).isPresent();
-        if(userHasAlreadyAnAccount){
+        boolean userActive = account.getUser().isActive(); 
+        if( userHasAlreadyAnAccount && userActive){ // && account.getUser().isActive()
             throw new OperationNonPermittedException(
                 "The selected user has already an active account",
                 "Create Account",

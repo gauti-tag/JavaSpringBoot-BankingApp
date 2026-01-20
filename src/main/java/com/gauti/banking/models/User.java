@@ -2,17 +2,19 @@ package com.gauti.banking.models;
 
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Data
 @SuperBuilder
-//@NoArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name="_user")
@@ -22,6 +24,7 @@ public class User extends AbstractEntity {
 
     private String lastname;
     
+    @Column(unique = true)
     private String email; 
 
     private String password; 
