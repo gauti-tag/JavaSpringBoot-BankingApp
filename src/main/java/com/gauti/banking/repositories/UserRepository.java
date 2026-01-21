@@ -1,5 +1,6 @@
 package com.gauti.banking.repositories;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,7 +16,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     // select * from _user where firstname like '%Ali%'
     List<User> findByFirstnameContaining(String firstname);
 
-    
+    // select * from _user where email = "infos@gmail.com"
+    Optional<User> findByEmail(String email);
+
     // select * from _user where firstname ilike 'ali'
     List<User> findByFirstnameContainingIgnoreCase(String firstname);
 
