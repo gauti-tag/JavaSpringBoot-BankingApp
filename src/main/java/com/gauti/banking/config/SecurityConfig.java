@@ -29,12 +29,19 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(
-                request -> request
-                .requestMatchers("/**/auth", "/**/register")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
+                request -> 
+                { 
+                    try {
+                        request.requestMatchers("/**/authenticate", "/**/register")
+                            .permitAll()
+                            .anyRequest()
+                            .authenticated();
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             )
+    
             .authenticationProvider(authenticationProvider())
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
             ;

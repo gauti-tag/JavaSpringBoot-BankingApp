@@ -1,11 +1,12 @@
 package com.gauti.banking.services.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -102,7 +103,12 @@ public class UserServiceImpl implements UserService {
         user.setPassword(hashPassword);
 
         var saveUser = repository.save(user);
-        String token = jwtUtils.generateToken(saveUser);
+
+        // Ajouter d'autre infos dans le token ( user infos )
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", saveUser.getId());
+        claims.put("fullname", saveUser.getFirstname() + " " + saveUser.getLastname());
+        String token = jwtUtils.generateToken(saveUser, claims);
 
         return AuthenticationResponse.builder() // Construire l'objet de reponse
             .token(token)
@@ -116,8 +122,14 @@ public class UserServiceImpl implements UserService {
         );
 
         // find the user and get the ID
-        final UserDetails user = repository.findByEmail(request.getEmail()).get(); // Get Id of the object
-        String token = jwtUtils.generateToken(user); // Generate the token after finding the user
+        final User user = repository.findByEmail(request.getEmail()).get(); // Get Id of the object
+
+        // Ajouter d'autre infos dans le token ( user infos )
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", user.getId());
+        claims.put("fullname", user.getFirstname() + " " + user.getLastname());
+
+        String token = jwtUtils.generateToken(user, claims); // Generate the token after finding the user
         return AuthenticationResponse.builder()
                 .token(token)
                 .build();
