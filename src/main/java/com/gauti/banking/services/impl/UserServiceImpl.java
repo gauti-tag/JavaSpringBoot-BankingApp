@@ -3,9 +3,16 @@ package com.gauti.banking.services.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.gauti.banking.config.JwtUtils;
 import com.gauti.banking.dto.AccountDto;
+import com.gauti.banking.dto.AuthenticationRequest;
+import com.gauti.banking.dto.AuthenticationResponse;
 import com.gauti.banking.dto.UserDto;
 import com.gauti.banking.models.User;
 import com.gauti.banking.repositories.UserRepository;
@@ -24,12 +31,16 @@ public class UserServiceImpl implements UserService {
     private final UserRepository repository;
     private final AccountService accountService;
     private final ObjectsValidator<UserDto> validator; 
+    private final PasswordEncoder passwordEncoder;
+    private final JwtUtils jwtUtils;
+    private final AuthenticationManager authManager;
 
     @Override
     public Integer save(UserDto dto) {
         //throw new UnsupportedOperationException("Not supported yet.");
         validator.validate(dto);
         User user = UserDto.toEntity(dto);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return repository.save(user).getId();
     }
 
@@ -83,4 +94,33 @@ public class UserServiceImpl implements UserService {
         return repository.save(user).getId();
     }
 
+    @Override
+    public AuthenticationResponse register(UserDto userDto) {
+        validator.validate(userDto);
+        User user = UserDto.toEntity(userDto); // transform json to Spring object entity 
+        String hashPassword = passwordEncoder.encode(user.getPassword()); // Encoder le password
+        user.setPassword(hashPassword);
+
+        var saveUser = repository.save(user);
+        String token = jwtUtils.generateToken(saveUser);
+
+        return AuthenticationResponse.builder() // Construire l'objet de reponse
+            .token(token)
+            .build(); 
+    }
+
+    @Override
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        authManager.authenticate(
+            new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+        );
+
+        // find the user and get the ID
+        final UserDetails user = repository.findByEmail(request.getEmail()).get(); // Get Id of the object
+        String token = jwtUtils.generateToken(user); // Generate the token after finding the user
+        return AuthenticationResponse.builder()
+                .token(token)
+                .build();
+        
+    }
 }
